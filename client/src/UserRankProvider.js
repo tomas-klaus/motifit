@@ -44,7 +44,7 @@ function UserRankProvider({ children }) {
 
   const value = {
     state: userLoadObject.state,
-    userRank: userLoadObject.data || 130,
+    userRank: userLoadObject.data || 130, //mozna muzu uplne vymazat || 130
     handlerMap: {},
   };
 
