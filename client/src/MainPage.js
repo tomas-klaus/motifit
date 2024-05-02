@@ -8,7 +8,7 @@ function MainPage() {
   const { loggedInUser } = useContext(UserContext);
   //const  userRank  = useContext(UserRankContext);
   const {userRank} = useContext(UserRankContext);
-  console.log(userRank)
+  //console.log(userRank)
 
   return (
     <div className="container">
@@ -18,7 +18,7 @@ function MainPage() {
           <div>Please log in</div>
         ) : (
           <div>
-            <p>Rank: </p>
+            <p>Rank: {userRank}</p>
             <p>
               Points:
               {loggedInUser.points}

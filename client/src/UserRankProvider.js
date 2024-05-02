@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useContext} from "react";
 import { UserContext } from "./UserContext";
 import { UserRankContext } from "./UserRankContext";
-
-import { useEffect, useState } from "react";
 
 function UserRankProvider({ children }) {
   const { loggedInUser } = useContext(UserContext);
@@ -13,12 +11,14 @@ function UserRankProvider({ children }) {
   });
 
   useEffect(() => {
+    console.log(loggedInUser);
     if (loggedInUser && loggedInUser.id) {
       handleLoad(loggedInUser.id);
     }
   }, [loggedInUser]);
 
   async function handleLoad(userId) {
+    //console.log("object");
     setUserLoadObject((current) => ({ ...current, state: "pending" }));
     const response = await fetch(
       `http://localhost:8000/user/getUserRank?id=${userId}`,
@@ -30,6 +30,7 @@ function UserRankProvider({ children }) {
     const responseJson = await response.json();
     if (response.status < 400) {
       setUserLoadObject({ state: "ready", data: responseJson });
+      //console.log(responseJson);
       return responseJson;
     } else {
       setUserLoadObject((current) => ({
@@ -43,7 +44,7 @@ function UserRankProvider({ children }) {
 
   const value = {
     state: userLoadObject.state,
-    userRank: userLoadObject.data || 0,
+    userRank: userLoadObject.data || 130,
     handlerMap: {},
   };
 

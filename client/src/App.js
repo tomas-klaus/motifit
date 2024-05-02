@@ -8,7 +8,7 @@ import ActivityList from "./ActivityList";
 
 import UserListProvider from "./UserListProvider";
 import UserProvider from "./UserProvider";
-import UserRankProvider from "./UserProvider";
+import UserRankProvider from "./UserRankProvider";
 
 //import './App.css';
 
