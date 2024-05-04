@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
+
+import UserInfo from "./UserInfo";
+import ActivityRecordList from "./ActivityRecordList";
 
 function UserProfile() {
-  const mockHistory = [
-    { activity: "Jogging", points: 56, date: "30/1/23", duration: "45 mins" },
-    { activity: "Yoga", points: 32, date: "28/1/23", duration: "30 mins" }
-  ];
+  const { loggedInUser } = useContext(UserContext);
 
+  // Check if the user is logged in
+  if (!loggedInUser) {
+    // If no user is logged in, display a sign-in prompt
+    return (
+      <div className="container">
+        <h1>Please log in</h1>
+      </div>
+    );
+  }
+
+  // If user is logged in, display user information and activity records
   return (
     <div className="container">
-      <h1>User Profile</h1>
-      <p>Username: "JohnDoe"</p>
-      <p>Rank: 10th</p>
-      <p>Points: 155</p>
-      <h2>History</h2>
-      {mockHistory.map((item, index) => (
-        <p key={index}>{item.activity}: {item.points} pts, Date: {item.date}, Duration: {item.duration}</p>
-      ))}
+      <div>
+        <h1>{loggedInUser.username}</h1>
+      </div>
+      <div>
+        <UserInfo />
+      </div>
+      <ActivityRecordList />
     </div>
   );
 }

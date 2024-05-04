@@ -1,4 +1,4 @@
-import { useEffect, useState , useContext} from "react";
+import { useEffect, useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import { UserRankContext } from "./UserRankContext";
 
@@ -11,14 +11,12 @@ function UserRankProvider({ children }) {
   });
 
   useEffect(() => {
-    console.log(loggedInUser);
     if (loggedInUser && loggedInUser.id) {
       handleLoad(loggedInUser.id);
     }
   }, [loggedInUser]);
 
   async function handleLoad(userId) {
-    //console.log("object");
     setUserLoadObject((current) => ({ ...current, state: "pending" }));
     const response = await fetch(
       `http://localhost:8000/user/getUserRank?id=${userId}`,
@@ -30,7 +28,6 @@ function UserRankProvider({ children }) {
     const responseJson = await response.json();
     if (response.status < 400) {
       setUserLoadObject({ state: "ready", data: responseJson });
-      //console.log(responseJson);
       return responseJson;
     } else {
       setUserLoadObject((current) => ({
@@ -41,10 +38,31 @@ function UserRankProvider({ children }) {
       throw new Error(JSON.stringify(responseJson, null, 2));
     }
   }
+  
+  //function to display the correct ordinal suffix
+  function formatRank(rank) {
+    if (!rank) return null; // Handle null
+    const lastDigit = rank % 10;
+    const lastTwoDigits = rank % 100;
+
+    if (lastTwoDigits > 10 && lastTwoDigits < 14) {
+      return rank + "th";
+    }
+    switch (lastDigit) {
+      case 1:
+        return rank + "st";
+      case 2:
+        return rank + "nd";
+      case 3:
+        return rank + "rd";
+      default:
+        return rank + "th";
+    }
+  }
 
   const value = {
     state: userLoadObject.state,
-    userRank: userLoadObject.data || 130, //mozna muzu uplne vymazat || 130
+    userRank: formatRank(userLoadObject.data),
     handlerMap: {},
   };
 

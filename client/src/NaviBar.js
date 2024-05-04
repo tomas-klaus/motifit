@@ -10,28 +10,33 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 import Icon from "@mdi/react";
 import { mdiLogout } from "@mdi/js";
-//import UserProvider from "./UserProvider";
+
 function NaviBar() {
   const { userList, loggedInUser, handlerMap } = useContext(UserContext);
+
   return (
-    <Navbar expand="lg">
+    <Navbar expand="md" bg="light">
       <Container>
         <Navbar.Brand as={Link} to="/">
           MA
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
+          <Nav className="me-auto">
+            {" "}
             <Nav.Link as={Link} to="/activities">
               +
             </Nav.Link>
             <Nav.Link as={Link} to="/profile">
               Profile
             </Nav.Link>
-
+          </Nav>
+          <Nav>
+            {" "}
             <NavDropdown
-              title={loggedInUser ? loggedInUser.username : "Přihlaš se"}
-              drop={"start"}
+              title={loggedInUser ? loggedInUser.username : "Log in"}
+              drop="start"
+              
             >
               {getUserMenuList({ userList, loggedInUser, handlerMap })}
             </NavDropdown>
@@ -43,7 +48,6 @@ function NaviBar() {
 }
 
 function getUserMenuList({ userList, loggedInUser, handlerMap }) {
-  // temporary solution to enable login/logout
   const userMenuItemList = userList.map((user) => (
     <NavDropdown.Item key={user.id} onClick={() => handlerMap.login(user.id)}>
       {user.username}
@@ -58,7 +62,7 @@ function getUserMenuList({ userList, loggedInUser, handlerMap }) {
         onClick={() => handlerMap.logout()}
         style={{ color: "red" }}
       >
-        <Icon path={mdiLogout} size={0.8} color={"red"} /> {"Odhlas se"}
+        <Icon path={mdiLogout} size={0.8} color={"red"} /> {"Log out"}
       </NavDropdown.Item>
     );
   }

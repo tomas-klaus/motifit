@@ -14,7 +14,7 @@ const schema = {
     duration: { type: "number" },
     points: {type: "number"}
   },
-  required: ["userID","activityID","date","duration"],
+  required: ["userID","activityID","date","duration","points"],
   additionalProperties: false,
 };
 

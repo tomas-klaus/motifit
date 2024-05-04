@@ -9,6 +9,8 @@ import ActivityList from "./ActivityList";
 import UserListProvider from "./UserListProvider";
 import UserProvider from "./UserProvider";
 import UserRankProvider from "./UserRankProvider";
+import ActivityListProvider from "./ActivityListProvider";
+import ActivityRecordListProvider from "./ActivityRecordListProvider";
 
 //import './App.css';
 
@@ -16,24 +18,32 @@ function App() {
   return (
     <UserProvider>
       <UserRankProvider>
-        <Router>
-          <NaviBar />
-          {/*UserRankProvider*/}
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <UserListProvider>
-                  <MainPage />
-                </UserListProvider>
-              }
-            />
-            {/*ActivityRecordListProvider*/}
-            <Route path="/profile" element={<UserProfile />} />
-            {/*ActivityListProvider*/}
-            <Route path="/activities" element={<ActivityList />} />
-          </Routes>
-        </Router>
+        <ActivityListProvider>
+          <Router>
+            <NaviBar />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <UserListProvider>
+                    <MainPage />
+                  </UserListProvider>
+                }
+              />
+
+              <Route
+                path="/profile"
+                element={
+                  <ActivityRecordListProvider>
+                    <UserProfile />
+                  </ActivityRecordListProvider>
+                }
+              />
+
+              <Route path="/activities" element={<ActivityList />} />
+            </Routes>
+          </Router>
+        </ActivityListProvider>
       </UserRankProvider>
     </UserProvider>
   );

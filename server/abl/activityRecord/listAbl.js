@@ -33,13 +33,6 @@ async function ListAbl(req, res) {
     
     const activityRecordList = activityRecordDao.list(reqParams.id);
     
-    if (activityRecordList.length===0) {
-      res.status(404).json({
-        code: "activityRecordNotFound",
-        message: `no activityRecord for user ${reqParams.id} found`,
-      });
-      return;
-    }
     res.json(activityRecordList);
   } catch (e) {
     res.status(500).json({ message: e.message });
