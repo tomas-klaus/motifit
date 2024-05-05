@@ -18,32 +18,27 @@ function App() {
   return (
     <UserProvider>
       <UserRankProvider>
-        <ActivityListProvider>
-          <Router>
-            <NaviBar />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <UserListProvider>
-                    <MainPage />
-                  </UserListProvider>
-                }
-              />
+        <ActivityRecordListProvider>
+          <ActivityListProvider>
+            <Router>
+              <NaviBar />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <UserListProvider>
+                      <MainPage />
+                    </UserListProvider>
+                  }
+                />
 
-              <Route
-                path="/profile"
-                element={
-                  <ActivityRecordListProvider>
-                    <UserProfile />
-                  </ActivityRecordListProvider>
-                }
-              />
+                <Route path="/profile" element={<UserProfile />} />
 
-              <Route path="/activities" element={<ActivityList />} />
-            </Routes>
-          </Router>
-        </ActivityListProvider>
+                <Route path="/activities" element={<ActivityList />} />
+              </Routes>
+            </Router>
+          </ActivityListProvider>
+        </ActivityRecordListProvider>
       </UserRankProvider>
     </UserProvider>
   );

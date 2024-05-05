@@ -24,10 +24,10 @@ function NaviBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {" "}
-            <Nav.Link as={Link} to="/activities">
+            <Nav.Link as={Link} to="/activities" >
               +
             </Nav.Link>
-            <Nav.Link as={Link} to="/profile">
+            <Nav.Link as={Link} to="/profile" >
               Profile
             </Nav.Link>
           </Nav>
@@ -36,7 +36,6 @@ function NaviBar() {
             <NavDropdown
               title={loggedInUser ? loggedInUser.username : "Log in"}
               drop="start"
-              
             >
               {getUserMenuList({ userList, loggedInUser, handlerMap })}
             </NavDropdown>

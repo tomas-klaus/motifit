@@ -12,7 +12,8 @@ const schema = {
     activityID: {type: "string"},
     date: { type: "string", format: "date-time" },
     duration: { type: "number" },
-    points: {type: "number"}
+    points: {type: "number"},
+    timestamp: {type:"string"}
   },
   required: ["userID","activityID","date","duration","points"],
   additionalProperties: false,

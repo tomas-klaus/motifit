@@ -53,7 +53,7 @@ function list(userId) {
     //finds only the activityRecords for specific userID
     activityRecordList = activityRecordList.filter(activity => activity.userID === userId);
     
-    activityRecordList.sort((a, b) => new Date(a.date) - new Date(b.date));
+activityRecordList.sort((a, b) => new Date(b.date) - new Date(a.date));
     
 
     return activityRecordList;

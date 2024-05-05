@@ -1,9 +1,13 @@
 import React, { useContext, useState } from "react";
 import { ActivityListContext } from "./ActivityListContext";
 import { ListGroup, Collapse, Form, Button } from "react-bootstrap";
-
+import { ActivityRecordListContext } from "./ActivityRecordListContext";
+import { UserContext } from "./UserContext";
 function ActivityList() {
   const { activityList } = useContext(ActivityListContext);
+  const { handlerMap } = useContext(ActivityRecordListContext);
+  const { loggedInUser } = useContext(UserContext);
+
   const [open, setOpen] = useState({});
   const [formData, setFormData] = useState({});
 
@@ -23,7 +27,7 @@ function ActivityList() {
   // Toggle visibility and set default date
   const toggleOpen = (id) => {
     setOpen((prevOpen) => ({
-      ...prevOpen,
+      // ...prevOpen,
       [id]: !prevOpen[id],
     }));
     setFormData((prevFormData) => ({
@@ -54,30 +58,68 @@ function ActivityList() {
             </ListGroup.Item>
             <Collapse in={open[activity.id]}>
               <div id={`collapse-form-${activity.id}`} className="m-2">
-                <Form>
+                <Form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentDateTime = new Date();
+                    var formData = new FormData(e.target);
+                    //
+                    let dtoIn = Object.fromEntries(formData);
+                    dtoIn.duration = Number(dtoIn.duration);
+                    const additionalData = {
+                      userID: loggedInUser.id,
+                      activityID: activity.id,
+                      points:
+                        activity.points *
+                        (dtoIn.duration = Number(dtoIn.duration)),
+                      timestamp: currentDateTime.toISOString(),
+                    };
+                    const fullFormData = {
+                      ...dtoIn,
+                      ...additionalData, // Add extra data
+                    };
+                    try {
+                      await handlerMap.handleCreate(fullFormData);
+                      setOpen(false);
+                    } catch (e) {
+                      // console.log(e);
+                      //setShowAlert(e.message);
+                    }
+                    // console.log(fullFormData);
+                  }}
+                >
                   <Form.Group className="mb-3">
                     <Form.Label>Duration in minutes</Form.Label>
-                    <Form.Control type="number" placeholder="Enter duration" />
+                    <Form.Control
+                      type="number"
+                      placeholder="Enter duration"
+                      name="duration"
+                    />
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <Form.Label>Date of Activity</Form.Label>
                     <Form.Control
                       type="date"
+                      name="date"
                       value={
                         formData[activity.id] ? formData[activity.id].date : ""
                       }
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setFormData({
                           ...formData,
                           [activity.id]: {
                             ...formData[activity.id],
                             date: e.target.value,
                           },
-                        })
-                      }
+                        });
+                      }}
                     />
                   </Form.Group>
-                  <Button variant="primary">Record</Button>
+
+                  <Button type="submit" variant="primary">
+                    Record
+                  </Button>
                 </Form>
               </div>
             </Collapse>

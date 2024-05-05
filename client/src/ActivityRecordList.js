@@ -1,14 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState , useEffect} from "react";
 import { ActivityRecordListContext } from "./ActivityRecordListContext";
 import { ActivityListContext } from "./ActivityListContext";
-import { ListGroup, ListGroupItem, Button } from "react-bootstrap"; // Import Button from react-bootstrap
+import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 
 function ActivityRecordList() {
-  const { activityRecordList, deleteActivityRecord } = useContext(
-    ActivityRecordListContext
-  );
+  const { activityRecordList } = useContext(ActivityRecordListContext);
   const { handlerMap } = useContext(ActivityRecordListContext);
   const { activityList } = useContext(ActivityListContext);
+
+  const [disableButtons, setDisableButtons] = useState(false);
+  
+  useEffect(() => {
+    // This effect does nothing but trigger a re-render when the state changes
+  }, [activityRecordList]);
 
   function getActivityNameById(activityID) {
     const activity = activityList.find(
@@ -17,10 +21,13 @@ function ActivityRecordList() {
     return activity ? activity.name : "Unknown Activity";
   }
 
-  // function handleDelete(id) {
-  //   // Assume deleteActivityRecord is a method provided by the context to delete a record
-  //   deleteActivityRecord(id);
-  // }
+  const handleDelete = (id) => {
+    setDisableButtons(true);
+    handlerMap.handleDelete(id);
+    setTimeout(() => {
+      setDisableButtons(false);
+    }, 500); // Disable for 0.5 seconds
+  };
 
   return (
     <div>
@@ -43,7 +50,11 @@ function ActivityRecordList() {
                 <br />
                 <strong>Points:</strong> {item.points} pts
               </div>
-              <Button variant="danger" onClick={() => handlerMap.handleDelete(item.id)}>
+              <Button
+                variant="danger"
+                disabled={disableButtons}
+                onClick={() => handleDelete(item.id)}
+              >
                 Delete
               </Button>
             </ListGroupItem>
