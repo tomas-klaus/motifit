@@ -75,16 +75,19 @@ function ActivityRecordListProvider({ children }) {
     if (response.status < 400) {
       
       setActivityRecordLoadObject((current) => {
-        current.data =responseJson;
+        current.data = [...current.data, responseJson];
+        
         
         return { state: "ready", data: current.data };
       });
-      setActivityRecordLoadObject((prevState) => ({
-        ...prevState,
-        data: prevState.data,
-      }));
-      console.log(activityRecordLoadObject);
+      // setActivityRecordLoadObject((prevState) => ({
+      //   ...prevState,
+      //   data: prevState.data,
+      // }));
+      //console.log(activityRecordLoadObject);
+      console.log(responseJson);
       return responseJson;
+      
     } else {
       setActivityRecordLoadObject((current) => {
         return { state: "error", data: current.data, error: responseJson };
@@ -140,7 +143,7 @@ function ActivityRecordListProvider({ children }) {
     handlerMap: { handleDelete , handleCreate},
   };
 
-  // console.log(value);
+  console.log(value);
 
   return (
     <ActivityRecordListContext.Provider value={value}>

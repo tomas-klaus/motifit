@@ -8,6 +8,12 @@ function UserProvider({ children }) {
   });
   const [loggedInUser, setLoggedInUser] = useState(null);
 
+  const [userLoadObject, setUserLoadObject] = useState({
+    state: "ready",
+    error: null,
+    data: null,
+  });
+
   useEffect(() => {
     setUserListDto((current) => ({ ...current, state: "loading" }));
     fetch(`http://localhost:8000/user/list`, {
@@ -21,6 +27,8 @@ function UserProvider({ children }) {
       }
     });
   }, []);
+
+  
 
   const value = {
     userList: userListDto.data || [],
