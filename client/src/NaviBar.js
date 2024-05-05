@@ -12,7 +12,7 @@ import Icon from "@mdi/react";
 import { mdiLogout } from "@mdi/js";
 
 function NaviBar() {
-  const { userList, loggedInUser, handlerMap } = useContext(UserContext);
+  const { userList, loggedInUser, userHandlerMap } = useContext(UserContext);
 
   return (
     <Navbar expand="md" bg="light">
@@ -37,7 +37,7 @@ function NaviBar() {
               title={loggedInUser ? loggedInUser.username : "Log in"}
               drop="start"
             >
-              {getUserMenuList({ userList, loggedInUser, handlerMap })}
+              {getUserMenuList({ userList, loggedInUser, userHandlerMap })}
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -46,9 +46,9 @@ function NaviBar() {
   );
 }
 
-function getUserMenuList({ userList, loggedInUser, handlerMap }) {
+function getUserMenuList({ userList, loggedInUser, userHandlerMap }) {
   const userMenuItemList = userList.map((user) => (
-    <NavDropdown.Item key={user.id} onClick={() => handlerMap.login(user.id)}>
+    <NavDropdown.Item key={user.id} onClick={() => userHandlerMap.login(user.id)}>
       {user.username}
     </NavDropdown.Item>
   ));
@@ -58,7 +58,7 @@ function getUserMenuList({ userList, loggedInUser, handlerMap }) {
     userMenuItemList.push(
       <NavDropdown.Item
         key={"logout"}
-        onClick={() => handlerMap.logout()}
+        onClick={() => userHandlerMap.logout()}
         style={{ color: "red" }}
       >
         <Icon path={mdiLogout} size={0.8} color={"red"} /> {"Log out"}

@@ -3,13 +3,15 @@ import { ActivityListContext } from "./ActivityListContext";
 import { ListGroup, Collapse, Form, Button } from "react-bootstrap";
 import { ActivityRecordListContext } from "./ActivityRecordListContext";
 import { UserContext } from "./UserContext";
+// import { UserListContext } from "./UserListContext";
 function ActivityList() {
   const { activityList } = useContext(ActivityListContext);
   const { handlerMap } = useContext(ActivityRecordListContext);
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser, userHandlerMap } = useContext(UserContext);
 
   const [open, setOpen] = useState({});
   const [formData, setFormData] = useState({});
+  
 
   // Function to format today's date in YYYY-MM-DD format
   const formatDate = (date) => {
@@ -72,7 +74,7 @@ function ActivityList() {
                       activityID: activity.id,
                       points:
                         activity.points *
-                        (dtoIn.duration = Number(dtoIn.duration)),
+                        (dtoIn.duration),
                       timestamp: currentDateTime.toISOString(),
                     };
                     const fullFormData = {
@@ -81,10 +83,16 @@ function ActivityList() {
                     };
                     try {
                       await handlerMap.handleCreate(fullFormData);
+                      await userHandlerMap.handleUpdate({
+                        id: loggedInUser.id,
+                        points: additionalData.points,
+                      });
+                      console.log(loggedInUser.points);
+                      console.log(additionalData.points);
                       setOpen(false);
                     } catch (e) {
-                      // console.log(e);
-                      //setShowAlert(e.message);
+                      console.log(e);
+                      
                     }
                     // console.log(fullFormData);
                   }}

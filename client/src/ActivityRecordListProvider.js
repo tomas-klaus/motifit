@@ -31,21 +31,7 @@ function ActivityRecordListProvider({ children }) {
 
     const responseJson = await response.json();
     if (response.status < 400) {
-      responseJson.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-
-        
-        if (dateA > dateB) return -1;
-        if (dateA < dateB) return 1;
-
-        
-        if (a.timestamp > b.timestamp) return -1;
-        if (a.timestamp < b.timestamp) return 1;
-
-        
-        return 0;
-      });
+      
       setActivityRecordLoadObject({ state: "ready", data: responseJson });
       
       return responseJson;
@@ -76,16 +62,23 @@ function ActivityRecordListProvider({ children }) {
       
       setActivityRecordLoadObject((current) => {
         current.data = [...current.data, responseJson];
+        current.data.sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+
+          if (dateA > dateB) return -1;
+          if (dateA < dateB) return 1;
+
+          if (a.timestamp > b.timestamp) return -1;
+          if (a.timestamp < b.timestamp) return 1;
+
+          return 0;
+        });
         
         
         return { state: "ready", data: current.data };
       });
-      // setActivityRecordLoadObject((prevState) => ({
-      //   ...prevState,
-      //   data: prevState.data,
-      // }));
-      //console.log(activityRecordLoadObject);
-      console.log(responseJson);
+      //console.log(activityRecordLoadObject.data);
       return responseJson;
       
     } else {
@@ -136,6 +129,7 @@ function ActivityRecordListProvider({ children }) {
       throw new Error(JSON.stringify(responseJson, null, 2));
     }
   }
+  //console.log(activityRecordLoadObject.data);
 
   const value = {
     state: activityRecordLoadObject.state,
@@ -143,7 +137,7 @@ function ActivityRecordListProvider({ children }) {
     handlerMap: { handleDelete , handleCreate},
   };
 
-  console.log(value);
+  //console.log(value);
 
   return (
     <ActivityRecordListContext.Provider value={value}>

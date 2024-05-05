@@ -50,7 +50,9 @@ function update(user) {
   try {
     const currentUser = get(user.id);
     if (!currentUser) return null;
-    const newUser = { ...currentUser, ...user };
+    const newPoints = (currentUser.points + user.points);
+    const updatedUser = { ...currentUser, points: newPoints };
+    const newUser = { ...currentUser, ...updatedUser };
     const filePath = path.join(userFolderPath, `${user.id}.json`);
     const fileData = JSON.stringify(newUser);
     fs.writeFileSync(filePath, fileData, "utf8");

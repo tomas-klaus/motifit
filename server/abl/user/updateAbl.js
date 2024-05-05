@@ -9,7 +9,7 @@ const schema = {
   type: "object",
   properties: {
     id: { type: "string" },
-    points: { type: "number" },
+    points: { type: "integer" },
   },
   required: ["id"],
   additionalProperties: false,
