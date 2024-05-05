@@ -11,7 +11,6 @@ function ActivityList() {
 
   const [open, setOpen] = useState({});
   const [formData, setFormData] = useState({});
-  
 
   // Function to format today's date in YYYY-MM-DD format
   const formatDate = (date) => {
@@ -44,6 +43,8 @@ function ActivityList() {
     }));
   };
 
+  
+
   return (
     <div className="container">
       <h1>Activity List</h1>
@@ -72,9 +73,7 @@ function ActivityList() {
                     const additionalData = {
                       userID: loggedInUser.id,
                       activityID: activity.id,
-                      points:
-                        activity.points *
-                        (dtoIn.duration),
+                      points: activity.points * dtoIn.duration,
                       timestamp: currentDateTime.toISOString(),
                     };
                     const fullFormData = {
@@ -87,12 +86,11 @@ function ActivityList() {
                         id: loggedInUser.id,
                         points: additionalData.points,
                       });
-                      console.log(loggedInUser.points);
-                      console.log(additionalData.points);
+                      // console.log(loggedInUser.points);
+                      // console.log(additionalData.points);
                       setOpen(false);
                     } catch (e) {
                       console.log(e);
-                      
                     }
                     // console.log(fullFormData);
                   }}

@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { UserListContext } from "./UserListContext.js";
+import { UserContext } from "./UserContext";
 
 function UserListProvider({ children }) {
+  const { userData } = useContext(UserContext);
   const [userLoadObject, setUserLoadObject] = useState({
     state: "ready",
     error: null,
     data: null,
   });
+//console.log(userData);
 
   useEffect(() => {
-    handleLoad();
-  }, []);
+   handleLoad();
+   }, [userData]);
 
   async function handleLoad() {
     setUserLoadObject((current) => ({ ...current, state: "pending" }));
@@ -20,7 +23,7 @@ function UserListProvider({ children }) {
     const responseJson = await response.json();
     if (response.status < 400) {
       setUserLoadObject({ state: "ready", data: responseJson });
-      
+
       return responseJson;
     } else {
       setUserLoadObject((current) => ({
@@ -35,7 +38,7 @@ function UserListProvider({ children }) {
   const value = {
     state: userLoadObject.state,
     userList: userLoadObject.data || [],
-    handlerMap: {handleLoad},
+    handlerMap: { handleLoad },
   };
 
   return (

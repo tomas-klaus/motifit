@@ -5,13 +5,22 @@ import { UserListContext } from "./UserListContext";
 import { Container, Row, Col, Table, Alert } from "react-bootstrap";
 
 function UserInfo() {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser,userData } = useContext(UserContext);
   //const { userRank } = useContext(UserRankContext);
-  const { userList } = useContext(UserListContext);
+  const { userList, handlerMap } = useContext(UserListContext);
+  //console.log(userList);
+
+  useEffect(() => {
+    handlerMap.handleLoad();
+  }, [userData]);
 
   let formattedRank = "User not logged in";
+  let points=0
   if (loggedInUser !== null) {
-    const index = userList.findIndex((user) => user.id === loggedInUser.id);
+    const index = userList.findIndex((user) => user.id === loggedInUser.id)
+    const user = userList.find((user) => user.id === loggedInUser.id);
+    points=user.points
+    
     formattedRank = formatRank(index + 1); // Adjust index for human-readable format (1-based index)
   }
   
@@ -52,7 +61,7 @@ function UserInfo() {
                   </tr>
                   <tr>
                     <td className="text-center">{formattedRank}</td>
-                    <td className="text-center">{loggedInUser.points}</td>
+                    <td className="text-center">{points}</td>
                   </tr>
                 </tbody>
               </Table>

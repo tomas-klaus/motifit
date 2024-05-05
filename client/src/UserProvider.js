@@ -11,7 +11,7 @@ function UserProvider({ children }) {
   const [userLoadObject, setUserLoadObject] = useState({
     state: "ready",
     error: null,
-    data: null,
+    data: [],
   });
 
   useEffect(() => {
@@ -36,12 +36,16 @@ function UserProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dtoIn),
     });
+    //console.log("this is respomse");
     const responseJson = await response.json();
-    console.log(responseJson);
+    console.log(response.status);
+
+//console.log(responseJson);
+    
 
     if (response.status < 400) {
       setUserLoadObject((current) => {
-        current.data = response.data;
+        current.data.push(responseJson);
         return { state: "ready", data: current.data };
       });
       return responseJson;
@@ -55,18 +59,18 @@ function UserProvider({ children }) {
     }
   }
 
-  
+  //console.log(userLoadObject);
 
   const value = {
     userList: userListDto.data || [],
     loggedInUser: loggedInUser
       ? (userListDto.data || []).find((user) => user.id === loggedInUser)
       : null,
-      userData: userLoadObject,
+    //userData: userLoadObject.data,
     userHandlerMap: {
       login: setLoggedInUser,
       logout: () => setLoggedInUser(null),
-      handleUpdate
+      handleUpdate,
     },
   };
 

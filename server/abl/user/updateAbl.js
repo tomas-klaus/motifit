@@ -49,8 +49,7 @@ async function UpdateAbl(req, res) {
         message: `User ${user.id} not found`,
       });
       return;
-    }
-
+    }  
     res.json(updatedUser);
   } catch (e) {
     res.status(500).json({ message: e.message });
