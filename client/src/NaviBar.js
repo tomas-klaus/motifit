@@ -10,6 +10,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 import Icon from "@mdi/react";
 import { mdiLogout } from "@mdi/js";
+import logoImage from "./logo.png";
 
 function NaviBar() {
   const { userList, loggedInUser, userHandlerMap } = useContext(UserContext);
@@ -18,16 +19,20 @@ function NaviBar() {
     <Navbar expand="md" bg="light">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          MA
+          <img
+            src={logoImage} // Use your imported image
+            alt="Logo"
+            style={{ width: "50px", height: "auto" }} // Adjust size as needed
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {" "}
-            <Nav.Link as={Link} to="/activities" >
+            <Nav.Link as={Link} to="/activities">
               +
             </Nav.Link>
-            <Nav.Link as={Link} to="/profile" >
+            <Nav.Link as={Link} to="/profile">
               Profile
             </Nav.Link>
           </Nav>
