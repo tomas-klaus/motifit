@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { ActivityRecordListContext } from "./ActivityRecordListContext";
 import { ActivityListContext } from "./ActivityListContext";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
-import{UserContext} from "./UserContext"
+import { UserContext } from "./UserContext";
 
 function ActivityRecordList() {
   const { activityRecordList } = useContext(ActivityRecordListContext);
@@ -11,10 +11,6 @@ function ActivityRecordList() {
   const { loggedInUser, userHandlerMap } = useContext(UserContext);
 
   const [disableButtons, setDisableButtons] = useState(false);
-
-  useEffect(() => {
-    // This effect does nothing but trigger a re-render when the state changes
-  }, [activityRecordList]);
 
   function getActivityNameById(activityID) {
     const activity = activityList.find(
@@ -32,7 +28,6 @@ function ActivityRecordList() {
   };
 
   let helper = [];
-  //console.log(activityRecordList);
   return (
     <div>
       <h2>History</h2>
@@ -64,8 +59,9 @@ function ActivityRecordList() {
                       handleDelete(item.id);
                       userHandlerMap.handleUpdate({
                         id: loggedInUser.id,
-                        points: - item.points,
+                        points: -item.points,
                       });
+                      userHandlerMap.handleLoad();
                     }}
                   >
                     Delete

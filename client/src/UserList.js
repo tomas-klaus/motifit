@@ -1,18 +1,12 @@
 import React, { useContext, useEffect} from "react";
-import { UserListContext } from "./UserListContext";
 import { Container, Row, Col, Table } from "react-bootstrap"; // Import necessary components
 import { UserContext } from "./UserContext";
 
 function UserList() {
-  const { userList, handlerMap } = useContext(UserListContext);
-  const { userData } = useContext(UserContext);
-
   
+  const { userList} = useContext(UserContext);
   
 
-  useEffect(() => {
-    handlerMap.handleLoad();
-  }, [userData]);
 
   return (
     <Container>

@@ -1,9 +1,20 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { UserContext } from "./UserContext";
+
 import UserInfo from "./UserInfo";
 import UserList from "./UserList";
+
 import { Container, Row, Col, Card } from "react-bootstrap";
 
 function MainPage() {
+const { userHandlerMap } = useContext(UserContext);
+  
+useEffect(() => {
+
+  userHandlerMap.handleLoad();
+  console.log("useEffect in MainPage");
+}, []);
+
   const getDaysLeftInMonth = () => {
     const today = new Date();
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);

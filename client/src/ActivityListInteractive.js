@@ -2,14 +2,16 @@ import React, { useContext, useState } from "react";
 import { ActivityRecordListContext } from "./ActivityRecordListContext";
 import { UserContext } from "./UserContext";
 import { ActivityListContext } from "./ActivityListContext";
-import { ListGroup, Collapse, Form, Button } from "react-bootstrap";
+import { ListGroup, Collapse, Form, Button, Modal } from "react-bootstrap";
 
 function ActivityListInteractive() {
   const { activityList } = useContext(ActivityListContext);
   const { handlerMap } = useContext(ActivityRecordListContext);
   const { loggedInUser, userHandlerMap } = useContext(UserContext);
-  const [open, setOpen] = useState({});
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({});
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const formatDate = (date) => {
     let d = new Date(date);
@@ -22,11 +24,9 @@ function ActivityListInteractive() {
 
   const toggleOpen = (id) => {
     setOpen((prevOpen) => ({
-      ...prevOpen,
       [id]: !prevOpen[id],
     }));
     setFormData((prevFormData) => ({
-      ...prevFormData,
       [id]: {
         ...prevFormData[id],
         date: prevFormData[id]?.date || formatDate(new Date()),
@@ -50,16 +50,31 @@ function ActivityListInteractive() {
     };
 
     try {
+      setShowAnimation(true);
+      setShowLoading(true);
+      setTimeout(() => setShowAnimation(false), 15000);
+      setTimeout(() => setShowLoading(false), 15000);
       await handlerMap.handleCreate({ ...dtoIn, ...additionalData });
       await userHandlerMap.handleUpdate({
         id: loggedInUser.id,
-        points: loggedInUser.points + additionalData.points,
+        points: additionalData.points,
       });
       setOpen({});
     } catch (e) {
       console.error(e);
     }
   };
+
+  function handleDateChange(activityId, event) {
+    const newDate = event.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [activityId]: {
+        ...prevFormData[activityId],
+        date: newDate,
+      },
+    }));
+  }
 
   return (
     <div className="container">
@@ -77,13 +92,19 @@ function ActivityListInteractive() {
             </ListGroup.Item>
             <Collapse in={open[activity.id]}>
               <div id={`collapse-form-${activity.id}`} className="m-2">
-                <Form onSubmit={(e) => handleSubmit(activity.id, e)}>
+                <Form
+                  onSubmit={(e) => (
+                    handleSubmit(activity.id, e), toggleOpen(activity.id)
+                  )}
+                >
                   <Form.Group className="mb-3">
                     <Form.Label>Duration in minutes</Form.Label>
                     <Form.Control
                       type="number"
                       placeholder="Enter duration"
                       name="duration"
+                      required
+                      min="1"
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
@@ -92,19 +113,17 @@ function ActivityListInteractive() {
                       type="date"
                       name="date"
                       value={formData[activity.id]?.date || ""}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          [activity.id]: {
-                            ...formData[activity.id],
-                            date: e.target.value,
-                          },
-                        })
-                      }
+                      onChange={(e) => handleDateChange(activity.id, e)}
                     />
                   </Form.Group>
-                  <Button type="submit" variant="primary">
-                    Record
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={showLoading}
+                  >
+                    {showLoading
+                      ? "Recording activity, please wait."
+                      : "Record"}
                   </Button>
                 </Form>
               </div>
@@ -112,6 +131,22 @@ function ActivityListInteractive() {
           </React.Fragment>
         ))}
       </ListGroup>
+      <Modal
+        show={showAnimation}
+        onHide={() => setShowAnimation(false)}
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title>Recording activity. Good job!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src="https://i.gifer.com/7plp.gif"
+            alt="Loading Animation"
+            justify-content="center"
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

@@ -1,11 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 
 import UserInfo from "./UserInfo";
 import ActivityRecordList from "./ActivityRecordList";
 
 function UserProfile() {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser, userHandlerMap } = useContext(UserContext);
+
+  useEffect(() => {
+    userHandlerMap.handleLoad();
+    console.log("useEffect in UserProfile");
+  }, []);
 
   // Check if the user is logged in
   if (!loggedInUser) {

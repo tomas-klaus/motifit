@@ -1,29 +1,21 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
-//import { UserRankContext } from './UserRankContext';
-import { UserListContext } from "./UserListContext";
 import { Container, Row, Col, Table, Alert } from "react-bootstrap";
 
 function UserInfo() {
-  const { loggedInUser,userData } = useContext(UserContext);
-  //const { userRank } = useContext(UserRankContext);
-  const { userList, handlerMap } = useContext(UserListContext);
-  //console.log(userList);
-
-  useEffect(() => {
-    handlerMap.handleLoad();
-  }, [userData]);
+  const { loggedInUser, userList } = useContext(UserContext);
+  
 
   let formattedRank = "User not logged in";
-  let points=0
+  let points = 0;
   if (loggedInUser !== null) {
-    const index = userList.findIndex((user) => user.id === loggedInUser.id)
+    const index = userList.findIndex((user) => user.id === loggedInUser.id);
     const user = userList.find((user) => user.id === loggedInUser.id);
-    points=user.points
-    
-    formattedRank = formatRank(index + 1); // Adjust index for human-readable format (1-based index)
+    points = user.points;
+
+    formattedRank = formatRank(index + 1); 
   }
-  
+
   function formatRank(index) {
     if (!index) return null; // Handle null
     const lastDigit = index % 10;
