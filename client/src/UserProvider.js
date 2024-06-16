@@ -28,10 +28,10 @@ function UserProvider({ children }) {
   //   });
   // }, []);
 
-  useEffect(() => {
-    handleLoad();
-    console.log("useEffect in UserProvider");
-  }, []);
+  // useEffect(() => {
+  //   handleLoad();
+  //   console.log("useEffect in UserProvider");
+  // }, []);
 
   async function handleLoad() {
     setUserListDto((current) => ({ ...current, state: "pending" }));
@@ -55,7 +55,7 @@ function UserProvider({ children }) {
     
   }
 
-  console.log(userListDto.data);
+  //console.log(userListDto.data);
 
 
   async function handleUpdate(dtoIn) {

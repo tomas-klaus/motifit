@@ -44,7 +44,7 @@ function UserInfo() {
             <Alert variant="danger">Please log in</Alert>
           ) : (
             <div>
-              <h4 className="mb-4">Rank</h4>
+              <h4 className="mb-4">Info</h4>
               <Table bordered>
                 <tbody>
                   <tr>

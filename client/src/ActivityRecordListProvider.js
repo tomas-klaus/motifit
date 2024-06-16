@@ -11,11 +11,11 @@ function ActivityRecordListProvider({ children }) {
   });
  
 
-  useEffect(() => {
-    if (loggedInUser && loggedInUser.id) {
-      handleLoad(loggedInUser.id);
-    }
-  }, [loggedInUser]);
+  // useEffect(() => {
+  //   if (loggedInUser && loggedInUser.id) {
+  //     handleLoad(loggedInUser.id);
+  //   }
+  // }, [loggedInUser]);
 
   async function handleLoad(userId) {
     setActivityRecordLoadObject((current) => ({
@@ -134,7 +134,7 @@ function ActivityRecordListProvider({ children }) {
   const value = {
     state: activityRecordLoadObject.state,
     activityRecordList: activityRecordLoadObject.data || [],
-    handlerMap: { handleDelete , handleCreate},
+    handlerMap: { handleDelete , handleCreate, handleLoad},
   };
 
   //console.log(value);

@@ -3,13 +3,20 @@ import { UserContext } from "./UserContext";
 
 import UserInfo from "./UserInfo";
 import ActivityRecordList from "./ActivityRecordList";
+import { ActivityRecordListContext } from "./ActivityRecordListContext";
+
 
 function UserProfile() {
   const { loggedInUser, userHandlerMap } = useContext(UserContext);
+  const { handlerMap } = useContext(ActivityRecordListContext);
 
   useEffect(() => {
     userHandlerMap.handleLoad();
     console.log("useEffect in UserProfile");
+    if (loggedInUser && loggedInUser.id) {
+      handlerMap.handleLoad(loggedInUser.id);
+      console.log("useEffect in ActivityRecordList");
+    }
   }, []);
 
   // Check if the user is logged in

@@ -20,9 +20,9 @@ function NaviBar() {
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img
-            src={logoImage} // Use your imported image
+            src={logoImage}
             alt="Logo"
-            style={{ width: "50px", height: "auto" }} // Adjust size as needed
+            style={{ width: "50px", height: "auto" }}
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

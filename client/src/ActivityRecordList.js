@@ -12,6 +12,13 @@ function ActivityRecordList() {
 
   const [disableButtons, setDisableButtons] = useState(false);
 
+  // useEffect(() => {
+  //   if (loggedInUser && loggedInUser.id) {
+  //     handlerMap.handleLoad(loggedInUser.id);
+  //     console.log("useEffect in ActivityRecordList");
+  //   }
+  // }, []);
+
   function getActivityNameById(activityID) {
     const activity = activityList.find(
       (activity) => activity.id === activityID
@@ -61,7 +68,8 @@ function ActivityRecordList() {
                         id: loggedInUser.id,
                         points: -item.points,
                       });
-                      userHandlerMap.handleLoad();
+                      //handlerMap.handleLoad(loggedInUser.id)
+                      //userHandlerMap.handleLoad();
                     }}
                   >
                     Delete
