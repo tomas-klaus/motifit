@@ -71,14 +71,13 @@ function UserProvider({ children }) {
     console.log(response.status);
 
     //console.log(responseJson);
-  
-
-
     if (response.status < 400) {
       setUserLoadObject((current) => {
         current.data = responseJson;
         return { state: "ready", data: current.data };
       });
+    handleLoad() //core feature
+
       return responseJson;
     } else {
       setUserLoadObject((current) => ({

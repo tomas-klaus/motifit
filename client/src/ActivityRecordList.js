@@ -12,12 +12,12 @@ function ActivityRecordList() {
 
   const [disableButtons, setDisableButtons] = useState(false);
 
-  // useEffect(() => {
-  //   if (loggedInUser && loggedInUser.id) {
-  //     handlerMap.handleLoad(loggedInUser.id);
-  //     console.log("useEffect in ActivityRecordList");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (loggedInUser && loggedInUser.id) {
+      handlerMap.handleLoad(loggedInUser.id);
+      console.log("useEffect in ActivityRecordList");
+    }
+  }, [loggedInUser.id]);
 
   function getActivityNameById(activityID) {
     const activity = activityList.find(

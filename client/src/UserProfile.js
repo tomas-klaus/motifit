@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
+import { Container, Row, Col, Table, Alert } from "react-bootstrap";
 
 import UserInfo from "./UserInfo";
 import ActivityRecordList from "./ActivityRecordList";
@@ -24,7 +25,7 @@ function UserProfile() {
     // If no user is logged in, display a sign-in prompt
     return (
       <div className="container">
-        <h1>Please log in</h1>
+        <Alert variant="danger">Please log in</Alert>
       </div>
     );
   }

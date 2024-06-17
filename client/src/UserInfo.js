@@ -4,7 +4,7 @@ import { Container, Row, Col, Table, Alert } from "react-bootstrap";
 
 function UserInfo() {
   const { loggedInUser, userList } = useContext(UserContext);
-  
+
 
   let formattedRank = "User not logged in";
   let points = 0;
@@ -13,7 +13,7 @@ function UserInfo() {
     const user = userList.find((user) => user.id === loggedInUser.id);
     points = user.points;
 
-    formattedRank = formatRank(index + 1); 
+    formattedRank = formatRank(index + 1);
   }
 
   function formatRank(index) {
